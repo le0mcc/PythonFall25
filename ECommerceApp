@@ -1,0 +1,79 @@
+### Week 2 Assignment - Leo McClellan
+# This assignment works with conditional flow to create a simple e-commerce system. It will store and display product information, which a user will then be able to choose from after validating their customer code. It will keep track of all their items in a list and then display the order summary and total at the end.
+
+# 1 This section will use a dictionary to store product and customer info
+# product dictionary
+product = {
+    "PC0100": {"name": "Chair", "price": 25.50},
+    "PT0100": {"name": "Table", "price": 300.99},
+    "PN0100": {"name": "Nightstand", "price": 129.50},
+    "PD0100": {"name": "Desk", "price": 298.99}
+}
+# customer dictionary
+customer = {
+    "C1": {"name": "Johny Jones", "loyalty": True},
+    "C2": {"name": "Adam Anderson", "loyalty": True},
+    "C3": {"name": "Reed Amari", "loyalty": True},
+    "C4": {"name": "Randal Trent", "loyalty": False}
+}
+
+# 2 This section will gain input from the user for their customer id. It will then display product details and prompt them for their order. It will populate this information into the order list.
+customer_id = input("Enter your customer ID here: ")
+order_items = []
+# display product details
+print("Product Catalog:")
+for product_key, details in product.items():
+  name = details["name"]
+  price = details["price"]
+  print(f"Product ID: {product_key} | Name: {name} | Price: ${price:.2f}")
+# allow customers to add to their order until they don't want to
+while customer_id in customer:
+  product_id = input("Enter the desired product ID: ")
+  # ensure product ID is valid
+  if product_id in product:
+    quantity = int(input("Enter quantity: "))
+    item = {
+        "product_id": product_id, "quantity": quantity, "price": product[product_id]["price"]
+    }
+    order_items.append(item)
+  else:
+    print("Invalid product ID. Please ensure all spelling and capitalization is correct and try again.")
+  # either add another item or break, based on user input
+  add_another = input("Would you like to add another item to your order? (y for yes/n for no): ")
+  if add_another.lower() != "y":
+    break
+else:
+  print("Invalid customer ID. Please ensure all spelling and capitalization is correct and try again.")
+
+# 4 This section will create an order summary with an order total before and after discount for the user
+order_total = 0
+for item in order_items:
+  item_total = item["quantity"] * item["price"]
+  order_total += item_total
+
+# 3 This section will determine discounts based on order total and loyalty status
+if customer[customer_id]["loyalty"] == True:
+  if order_total >= 100:
+    order_discount = .15
+  else:
+    order_discount = .1
+else:
+  if order_total >= 100:
+    order_discount = .05
+  else:
+    order_discount = 0
+
+# apply applicable discount to order_total
+order_discount_total = (1-order_discount) * order_total
+# print an order summary for the user
+print("Order Summary")
+for item in order_items:
+  name = product[item["product_id"]]["name"]
+  quantity = item["quantity"]
+  price = item["price"]
+  total = quantity * price
+  print(f"{name} x {quantity} @ ${price:.2f} = ${total:.2f}")
+
+print(f"\n\nOrder Subtotal: {order_total:.2f}")
+print(f"Discount Applied: {order_discount*100:.0f}%")
+print(f"\nOrder Total: ${order_total:.2f}")
