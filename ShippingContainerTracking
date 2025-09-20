@@ -1,0 +1,107 @@
+### Week 3 Assignment - Leo McClellan
+# This assignment will work with tuples. It will demonstrate their immutability and utilize them to track information for shipping containers and their shipping costs, distances, and unique tracking codes.
+
+# 1- Create Three Container Tuple
+# This section will demonstrate how to define and unpack tuples.
+# Create 3 container tuples
+container_1 = ("CNT-001", -82.4572, 27.9506, True) # Temple Terrace
+container_2 = ("CNT-002", -39.5299, 119.8143, False) # Reno, Nevada
+container_3 = ("CNT-003", 139.6917, 35.6895, True) # Tokyo, Japan
+
+# Print each tuple
+print(f"Container 1: {container_1}\nContainer 2: {container_2}\nContainer 3: {container_3}\n")
+
+# Check mutability
+# container_a[1] = 41.0 ## commented out so code can run
+# This doesn't work because tuples are immutable. This means they can't be changed once defined.
+
+# Unpack first tuple by its variables
+cont1_id = container_1[0]
+cont1_lat = container_1[1]
+cont1_long = container_1[2]
+print(f"Container 1 ID: {cont1_id}\nLatitude: {cont1_lat}\nLongitude: {cont1_long}")
+
+# 2- Processing Container Data with Functions
+# This section will calculate shipping costs based on distance, weight, and fragility.
+# It will then display the container information for each and finally calculate the distance between each of the containers along with their tracking code.
+# Create a function to calculate shipping cost
+def calculate_shipping_cost(distance, weight, is_fragile):
+  base_cost = distance * .5 + weight * .1
+  if is_fragile: # fragile items have 50% higher shipping costs
+    base_cost *= 1.5
+  return base_cost
+
+# Test values for shipping costs
+print(calculate_shipping_cost(3500, 2000, True))
+print(calculate_shipping_cost(9000, 500, False))
+print(calculate_shipping_cost(1000, 300, True))
+
+# Create a function to display container information
+def display_container(container_tuple):
+  cont_id, lat, lng, is_fragile = container_tuple
+  print(f"Container ID: {cont_id} | Coordinates ({lat}, {lng}) | Fragile: {is_fragile}")
+
+# Call the function with each container
+display_container(container_1)
+display_container(container_2)
+display_container(container_3)
+
+# Create a function to calculate distance between two locations
+def calculate_distance(lat1, lng1, lat2, lng2):
+  distance = ((lat2 - lat1)**2 + (lng2 - lng1)**2)**.5
+  return distance * 100
+
+# Create instances of distances between each container
+distance1_2 = calculate_distance(container_1[1], container_1[2], container_2[1], container_2[2])
+distance2_3 = calculate_distance(container_2[1], container_2[2], container_3[1], container_3[2])
+distance1_3 = calculate_distance(container_1[1], container_1[2], container_3[1], container_3[2])
+
+# Display distance between each combination
+print(f"\nDistance between container 1 and 2: {distance1_2}")
+print(f"Distance between container 2 and 3: {distance2_3}")
+print(f"Distance between container 1 and 3: {distance1_3}\n")
+
+# Create a function with default parameters
+def generate_tracking_code(container_id, prefix="TRK", year=2025):
+  return f"{prefix}-{year}-{container_id}"
+
+# Test different combinations
+print(generate_tracking_code("CNT-002", "AMK"))
+print(generate_tracking_code("CNT-003", "TRK",2024))
+print(generate_tracking_code("CNT-001"))
+
+# Store and print each containers tracking code with default information
+cont1_track = generate_tracking_code(container_1[0])
+cont2_track = generate_tracking_code(container_2[0])
+cont3_track = generate_tracking_code(container_3[0])
+print(f"\nContainer 1 tracking code: {cont1_track}")
+print(f"Container 2 tracking code: {cont2_track}")
+print(f"Container 3 tracking code: {cont3_track}")
+
+# 3- Bringing It All Together
+# This section will combine all the functions to compute and display shipping costs, distance, and tracking codes for each container.
+containers = [container_1, container_2, container_3]
+# Display each container in the list of containers
+for cont in containers:
+  display_container(cont)
+
+# Calculate total shipping costs
+destination = (44.9778, 93.2650) # Minneapolis, MN
+
+# Distance and costs from Tampa to Minneapolis
+FL_MN_Distance = calculate_distance(destination[0], destination[1], container_1[1], container_1[2])
+FL_MN_Shipping_Cost = calculate_shipping_cost(FL_MN_Distance, 3000, True)
+FL_MN1 = generate_tracking_code("CNT-001", "EXP") # Generate tracking codes
+print(f"\nDistance from FL to MN: {FL_MN_Distance:.1f}\nShipping costs: ${FL_MN_Shipping_Cost:.2f}\nTracking code: {FL_MN1}")
+
+# Distance and costs from Reno to Minneapolis
+NV_MN_Distance = calculate_distance(destination[0], destination[1], container_2[1], container_2[2])
+NV_MN_Shipping_Cost = calculate_shipping_cost(NV_MN_Distance, 500, False)
+NV_MN3 = generate_tracking_code("CNT-003", "LTE", 2024) # Generate tracking codes
+print(f"\nDistance from NV to MN: {FL_MN_Distance:.1f}\nShipping costs: ${NV_MN_Shipping_Cost:.2f}\nTracking code: {NV_MN3}")
+
+# Distance and costs from Tokyo to Minneapolis
+TK_MN_Distance = calculate_distance(destination[0], destination[1], container_3[1], container_3[2])
+TK_MN_Shipping_Cost = calculate_shipping_cost(TK_MN_Distance, 2000, True)
+TK_MN2 = generate_tracking_code("CNT-002") # Generate tracking codes
+print(f"\nDistance from Tokyo to MN: {TK_MN_Distance:.1f}\nShipping costs: ${TK_MN_Shipping_Cost:.2f}\nTracking code: {TK_MN2}")
