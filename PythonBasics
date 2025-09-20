@@ -1,0 +1,111 @@
+#### Week 1 Assignment - Leo McClellan
+# This assignment will display different uses of various Python fundamental tools. This includes defining and printing variables, combining strings, calculations, and other basic skills.
+
+# 1 Variable Assignment and Data Types
+# create variables
+company = "Acme Corporation"
+founded_year = 1945
+revenue = 35.6
+publicly_traded = True
+
+# print these variables with their type
+print(company, type(company))
+print(founded_year, type(founded_year))
+print(revenue, type(revenue))
+print(publicly_traded, type(publicly_traded))
+
+# 2 Data Type
+product = "Laptop"
+price = 999.99
+# print the data type of the price
+print(type(price))
+
+# 3 Integer Operations
+# set variables for budget and price and determine the allocation of funds
+budget = 1000
+monitor_price = 45
+monitor_quantity = budget // monitor_price
+# this will calculate the remainder of the budget that isn't spent on monitors
+remaining_budget = budget % monitor_price
+print(monitor_quantity)
+print(remaining_budget)
+
+# 4 Float Operations
+# this will calculate and print the revenue from the defined variables
+unit = 150
+unit_price = 49.99
+unit_revenue = unit * unit_price
+print(unit_revenue)
+
+# 5 String Concatenation
+product = "Smartphone"
+model = "X"
+year = "2023"
+# combine the desired strings into the required format
+product_info = product + " Model " + model + " (" + year + ")"
+print(product_info)
+
+# 6 Comparison Operators
+order_total = 17
+free_shipping_threshold = 50
+# create a boolean for whether or not the order is eligible for free shipping
+is_eligible = order_total >= free_shipping_threshold
+print(is_eligible)
+
+# 7 Logical AND Operator
+is_member = True
+days_since_purchase = 3
+discount_threshold = 7
+# determine if customer qualifies for the discount against the requirements
+qualifies_for_discount = is_member and days_since_purchase <= discount_threshold
+print(qualifies_for_discount)
+
+# 8 Logical OR Operator
+email = "mcclellan2@usf.edu"
+phone = "6515554650"
+# require that email or phone must not be blank for the sign in variable
+sign_in_allowed = email != "" or phone != ""
+print(sign_in_allowed)
+
+# 9 Logical NOT Operator
+day = "Sunday"
+# if the day is not Sunday, it will be open
+is_open = day != "Sunday"
+print(is_open)
+
+# 10 Exponentiation
+revenue_growth = .1
+initial_revenue = 1000000
+# calculate the revenue to 2 decimal places
+projected_revenue = round(initial_revenue * ((1 + revenue_growth) ** 5), 2)
+print(projected_revenue)
+
+# 11 Modulo Operator for Even/Odd
+# determine if the number is even based on the remainder after being divided by 2
+number = int(20)
+if number % 2 == 0:
+  print("Even")
+else:
+   print("Odd")
+
+# 12 Type Conversion (String to Integer)
+quantity_str  = "12"
+quantity_int = int(quantity_str)
+price = 25
+# if the price is 25, calculate and print the total
+if price == 25:
+  total = quantity_int * price
+  print(total)
+
+# 13 Type Conversion (Integer to String)
+# combine the strings to create a report string
+product_id = 456
+launch_year = 2022
+report_string = str(product_id) + "-" + str(launch_year)
+print(report_string)
+
+# 14 Type Conversion (Float to Integer)
+# convert the cart_total to integer and display it
+cart_total = 157.85
+discount_amount = int(cart_total)
+print(discount_amount)
