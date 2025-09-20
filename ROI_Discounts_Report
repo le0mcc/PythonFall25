@@ -1,0 +1,50 @@
+#### Week 4 Assignment - Leo McClellan
+This assignment will demonstrate the usage of flexible, modular Python. It will calculate discounted prices, generate a timestamped report, and compute the ROI. 
+
+# 1 Calculate Discounted Prices
+# This section will create a function to calculate discount prices with or without defaults.
+# Write a function that will return the final price after taking out the discount
+def calculate_discounted_price(price, discount_percentage=10): # default discount is 10%
+  return f"${price*(1-(discount_percentage/100)):.2f}"
+
+calculate_discounted_price(799.99)
+
+# 2 **Sales Report Function with *args and kwargs
+# This section will generate a sales report with the sum of sales, report date(with default: Unknown), and promotional discounts accepted as **kwargs
+import datetime
+now = datetime.datetime.now() # Uses built in function to display report time
+def generate_sales_report(*sales, report_date="Unknown", **promo_metrics):
+  # Total and print all given sales data, the *arg
+  sales_total = sum(sales)
+  print(f"Sales total: ${sales_total:.2f}")
+  # Print all data in promo metrics, the **kwarg
+  for key, value in promo_metrics.items():
+    print(f"{key}: {value}")
+  # Print the report date, default= "Unknown"
+  print(f"Report Date: {report_date}")
+
+# Call the function with the provided metrics in the assignment
+generate_sales_report(1500, 2300.5, 1890.75, 2120, report_date=now.strftime("%Y-%m-%d %H:%M:%S"), Total_Orders=125, New_Customers=30, Conversion_Rate="5%")
+
+# 3 Custom Module for ROI
+# This section will create a sales_tools.py module that contains a function to return ROI using the provided investment data.
+%%writefile "/content/sales_tools.py"
+def calculate_roi(initial_investment, final_value):
+  roi = (final_value-initial_investment)/initial_investment # calculate ROI
+  return f"{roi:.2f}"
+
+# 4 Main Fuction Integration
+# This section will import the sales_tools module and call a main function to calculate the discount price, generate the sales report, and calculate the ROI. 
+import sales_tools
+def main():
+  # Call the calculate_discounted_price with the given data and print the result
+  print(f"Calculated discount price: {calculate_discounted_price(799.99)}\n")
+  # Call the generate_sales_report with the provided data
+  generate_sales_report(1500, 2300.5, 1890.75, 2120, report_date="2025-09-19 23:59:59", Total_Orders=125, New_Customers=30, Conversion_Rate="5%")
+  # Call the calculate_roi from the sales_data.py with the given data and print the result
+  roi_result = float(sales_tools.calculate_roi(5000,8500))
+  print(f"\nROI: {roi_result:.2f}%")
+
+# Ensure there is a main function and call it
+if __name__ == "__main__":
+  main()
