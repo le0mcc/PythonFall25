@@ -1,0 +1,94 @@
+### Week 7 Assignment - Leo McClellan
+# This assignment will utilize the Pandas library to create DataFrames in order to clean, tranform, and analyze data. It will display the usage of calculations, renaming, filtering, indexing, grouping and aggregation, merging, and finally saving and loading the data into CSV and Excel exports.
+import pandas as pd
+import numpy as np
+
+# Task 1: Data Import and Creation
+# Create a DataFrame df_products with given data
+df_products = pd.DataFrame({
+    'Product': ['Tablet', 'Smartphone', 'Laptop', 'Smartwatch'],
+    'Price': [299.99, 499.99, 999.99, 199.99],
+    'Stock': [120, 150, 80, 200]
+})
+print(f"Products:\n{df_products}")
+# Create another DataFrame df_sales with given data
+df_sales = pd.DataFrame({
+    'Region': ['North', 'South', 'East', 'West', 'North', 'South'],
+    'Sales': [250, 300, 450, 500, 350, 400]
+})
+print(f"\nSales:\n{df_sales}")
+
+# Task 2: Data Cleaning and Transformation
+# Create a DataFrame df_nan
+df_nan = pd.DataFrame({
+    'Product': ['TV', 'Radio', 'Speaker'],
+    'Price': [499.99, None, 199.99],
+    'Stock': [20, 30, None]
+})
+print(f"DataFrame with nulls: \n{df_nan}")
+# Identify missing values in df_nan
+print(f"\nBelow will show true to identify any values that are null.")
+print(df_nan.isnull())
+# Fill missing "Price" values with the mean price and "Stock" values with 0
+df_products['Price'].fillna(df_products['Price'].mean())
+df_products['Stock'].fillna(0)
+# For df_products, add a new column "Total Value" that is the product of "Price" and "Stock"
+df_products['Total Value'] = df_products['Price'] * df_products['Stock']
+# Create another new column in df_products named "Discounted Price" that applies a 10% discount to "Price"
+df_products['Discounted Price'] = df_products['Price'] * .9
+# Rename the columns in df_products
+df_products = df_products.rename(columns={'Product': 'Item', 'Price': 'Unit Price', 'Stock': 'Inventory'})
+print(f"\nProduct DataFrame after changes: \n{df_products}")
+
+# Task 3: Data Filtering and Indexing
+# From df_products, filter and display all items with a "Unit Price" greater than 300
+expensive_products = df_products[df_products['Unit Price'] > 300]
+print(f"Products with a unit price > 50: \n{expensive_products}")
+# Use string methods to filter and display items in df_products whose names contain the letter "a"
+a_products = df_products[df_products['Item'].str.contains("a")]
+print(f'\nProducts that contain "a" in their name: \n{a_products}')
+
+# Task 4: Grouping and Aggregation
+# Group df_sales by "Region" and calculate the total sales for each region
+grouped_sales_sum = df_sales.groupby('Region').sum()
+print(f"Sales grouped by region: \n{grouped_sales_sum}")
+# Group df_sales by "Region" and compute both the sum and average of sales
+grouped_sales_agg = df_sales.groupby('Region').agg({'Sales': ['sum', 'mean']})
+print(f"\nAggregated sales grouped by region per sum and average: \n{grouped_sales_agg}")
+
+# Task 5: Merging and Pivot Tables
+# Create a DataFrame named df_customers with given data
+df_customers = pd.DataFrame({
+    'CustomerID': [1, 2, 3],
+    'Name': ['Alice', 'Bob', 'Charlie']
+})
+print(f"DataFrame of customer info: \n{df_customers}")
+# Create another DataFrame named df_orders with given data
+df_orders = pd.DataFrame({
+    'CustomerID': [1, 2, 1],
+    'OrderID': [101, 102, 103],
+    'Amount': [250, 150, 300]
+})
+print(f"\nDataFrame of order info: \n{df_orders}")
+# Merge df_customers and df_orders on "CustomerID" using an inner join
+merge_cust_orders = pd.merge(df_customers, df_orders, on='CustomerID', how='inner')
+print(f"\nMerged DataFrame of customers in df_customers and df_orders: \n{merge_cust_orders}")
+# Create a pivot table from df_sales summarizing the total sales by region
+pivot = pd.pivot_table(df_sales, values='Sales', index='Region', aggfunc='sum')
+print(f"\nPivot table that summarizes total sales by region: \n{pivot}")
+
+# Task 6: Data Persistence
+# Save df_products to a CSV file named "products.csv"
+df_products.to_csv("products.csv", index=False)
+print("Products DataFrame saved as CSV")
+# Save df_products to an Excel file named "products.xlsx" with the sheet name "Products"
+df_products.to_excel("products.xlsx", index=False, sheet_name="Products")
+print("Products DataFrame saved as Excel")
+# Reload both files into new DataFrames and display them
+df_read_csv = pd.read_csv("products.csv")
+print(f"DataFrame loaded from CSV: {df_read_csv}")
+df_read_excel = pd.read_excel("products.xlsx")
+print(f"\nDataFrame loaded from Excel file: {df_read_excel}")
+
+### Task 7: Analysis Report
+# Throughout the process of this assignment, I utilized Pandas, an open-source Python library. This allows for smooth, efficient data handling. For each DataFrame, I would name them and define them with “pd.DataFrame” followed by a Python dictionary to clean and standardize the data. Creating and using DataFrames enhances organization. I would then transform the data based on each requirement. I was able to utilize other Pandas features like “fillna” to fill any null values, “rename” to rename column names, and the built-in functionality for calculations. An example of this is calculating total and discounted price. From there, analysis is natural. Pandas can help to identify operators, such as when one product is more expensive than another, as shown below. It can be used to filter through data based on variables the data contains. Analysts can then use this information to make financial and strategic decisions. There are also more complex operations, like grouping, pivot tables, and merging. These can help to condense the data into a more readable form for the user. For instance, in this assignment, the sales were summed and grouped by region with “df_sales.groupby('Region').sum()”, which allows a clearer interpretation. The pivot tables are beneficial because they provide quick aggregation and allow faster and quicker data transformation. They allow the coder to select a specific DataFrame, which values to include in the pivot table, the index that the data will be interpreted from, and how to aggregate the data, like calculating the sum. The code to accomplish this is “pivot = pd.pivot_table(df_sales, values='Sales', index='Region', aggfunc='sum').” Merging is especially useful when there are two separate DataFrames with a shared key, such as a CustomerID between order and customer DataFrames. As for real-world business problems, these types of data transformation can help to organize information and solve problems. Examples of this include tracking sales trends in various areas, tracking the success of different products, and filtering through data based on entered requirements. Being able to analyze cleaned data quickly is a necessary skill in the modern industry.
