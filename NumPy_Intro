@@ -1,0 +1,70 @@
+#### Week 5 Assignment - Leo McClellan
+# This assignment will analyze a fictitious comlany, TechTRendz Retail, through their performance. I will calculate and display a report for the discounts, inventory, and trends.
+
+# Importing NumPy for ease of calculations throughout code
+import numpy as np
+print("NumPy version:", np.__version__)
+
+# Problem 1: Sales Analysis
+# Convert the raw sales list into a NumPy array
+sales_list = [100, 150, 200, 250, 300]
+sales = np.array(sales_list)
+# Apply a 10% discount to the sales using vectorized operations
+discounted_sales = sales * .9
+# Compute total, mean, and standard deviaiton on the discounted sales
+total_sales = np.sum(discounted_sales)
+mean_sales = np.mean(discounted_sales)
+std_sales = np.std(discounted_sales)
+
+# Display transformed discounted sales array and the computed aggregate statistics
+print("Discounted Sales: ", discounted_sales)
+print("Total Discounted Sales: ", total_sales)
+print("Mean Discounted Sales: ", mean_sales)
+print("Sales Standard Deviation: ", std_sales)
+
+# Report for manager
+print(f"\nThe discounted sales are {discounted_sales}. The total sales after discount is {total_sales}. This includes an average of {mean_sales} and standard deviation of {std_sales}. This indicates moderate consistency in sales.")
+
+# Problem 2: Inventory and Discount Analysis
+# Initialize inventory and discount data
+data = np.array([
+    [100, 10],
+    [150, 15],
+    [200, 20],
+    [250, 25],
+    [300, 30]
+])
+# Extract the inventory counts (first column) and discount percentages (second column) into separate one-dimensional arrays
+inventory = data[:,0]
+discounts = data[:,1]
+# Compute the total inventory across all categories
+total_inventory = np.sum(inventory)
+# Extract a submatrix for the first two product categories using advanced slicing
+submatrix = data[:2, :]
+
+# Display the  two extracted arrays, the total inventory value, and the extracted submatrix in your report
+print("Investory: ", inventory)
+print("Discount: ", discounts)
+print("Total Inventory: ", total_inventory)
+print("Submatrix of first two product categories:", submatrix)
+
+# Report for manager
+print(f"The inventory is {inventory} with discounts {discounts}. The total cumulative inventory is {total_inventory} units. The inventory and discounts, respectively, for the first two products are {submatrix}\nThis will be used to understand discounts affect on inventory.")
+# Problem 3: Sales Trend Analysis
+# Initialize daily sales data for week
+daily_sales = np.array([100, 150, 220, 280, 340, 400, 470])
+# Compute the cumulative sales for the week using np.cumsum
+cumulative_sales = np.cumsum(daily_sales)
+# Calculate the day-to-day differences in sales using np.diff
+sales_differences = np.diff(daily_sales)
+# Filter the differences to identify days where the increase in sales exceeded 50 units
+increased_sales = sales_differences[sales_differences > 50]
+
+# Display the cumulative sales array, the array of day-to-day differences, and the filtered significant increases
+print("Daily Sales: ", daily_sales)
+print("Cumulative Sales: ", cumulative_sales)
+print("Differences Daily: ", sales_differences)
+print("Significant Sales Increase(>50): ", increased_sales)
+
+# Report for manager
+print(f"The daily sales are {daily_sales}, equating to a cumulative total of {cumulative_sales} sales. The sales differences day-to-day were {sales_differences}. The significant sales increases, those over 50 units, were {increased_sales}. These insights can be used to determine which days of the week might be most successful.")
